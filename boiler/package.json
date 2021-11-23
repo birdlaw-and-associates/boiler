@@ -25,7 +25,7 @@
     "build": "",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:client-dev": "webpack --config webpack.config.js --mode development --watch"
+    "build:client-dev": "webpack --config webpack.config.js --mode development"
   },
   "eslintConfig": {
     "extends": [

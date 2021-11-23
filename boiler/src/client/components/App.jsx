@@ -6,6 +6,7 @@ import '../styles/style.css';
 // Imports //
 import Weather from './Weather.jsx';
 import FavoritesList from './FavoritesList.jsx';
+import RestaurantList from './RestaurantList.jsx';
 /////////////
 
 const App = () => {
@@ -27,25 +28,25 @@ const App = () => {
           />
           <MenuIcon />
 
-            <Typography variant='h4' align='center'>
-              Boiler!
-            </Typography>
+          <Typography variant='h4' align='center'>
+            Boiler!
+          </Typography>
         </Toolbar>
       </AppBar>
       <main>
         <div>
-            <Container maxWidth="sm">
-              <Typography variant='h4' color='textPrimary'>
-                  <Weather />
-              </Typography>
-            </Container>
+          <Container maxWidth="sm">
+            <Typography variant='h4' color='textPrimary'>
+              <Weather />
+            </Typography>
+          </Container>
         </div>
         <div>
-            <Container maxWidth="sm">
-              <Typography variant='h4' color='textPrimary'>
-                  <FavoritesList />
-              </Typography>
-            </Container>
+          <Container maxWidth="sm">
+            <Typography variant='h4' color='textPrimary'>
+              <FavoritesList />
+            </Typography>
+          </Container>
         </div>
       </main>
     </>
