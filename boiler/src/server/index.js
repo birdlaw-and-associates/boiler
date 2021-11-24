@@ -22,19 +22,9 @@ app.use(express.static('./dist'));
 ////Server Routing////
 
 //GET
-<<<<<<< HEAD
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve('./dist/index.html'));
 });
-=======
-// app.get('/', (req, res) => {
-//   res.status(200).sendFile(path.resolve('./dist/index.html'));
-// });
-
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(distPath, './index.html'));
-// });
->>>>>>> 5015b98b94f93ece6bc7cbf7ded94242248a8d8e
 
 
 app.get('/api/restaurants', (req, res) => {
