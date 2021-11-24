@@ -81,31 +81,3 @@ const Weather = () => {
 };
 
 export default Weather;
-
-
-// return (
-//   <div>
-//     {!!weatherInfo && weatherInfo.map((i, index) => (
-//       <div key={index}>
-//         <Box sx={{
-//                   display: 'flex',
-//                   flexDirection: 'row',
-//                   bgcolor: 'primary.main',
-//                   color: 'white',
-//                   borderRadius: 3,
-//                   textAlign: 'center',
-//                   fontSize: '1rem',
-//                   p: 1,
-//                   m: 2,
-//                   }}>
-
-//         <WeatherDay
-//           min={i.min}
-//           max={i.max}
-//           weatherType={i.weatherType}
-//           weatherIcon={i.weatherIcon} />
-//           </Box>
-//       </div>
-//     ))}
-//   </div>
-// );
