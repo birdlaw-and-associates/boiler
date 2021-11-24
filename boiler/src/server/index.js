@@ -21,7 +21,7 @@ app.use(express.static(distPath));
 
 //GET
 app.get('/', (req, res) => {
-  res.status(200).sendFile(path.resolve('./public/index.html'));
+  res.status(200).sendFile(path.resolve('./dist/index.html'));
 });
 
 
@@ -130,8 +130,8 @@ app.put('/api/restaurants/:id', (req, res) => {
 // updates restaurant with the rating from yelp
 // must have restaurant title in body
 app.put('/api/restaurants', (req, res) => {
-  const {yelpRating, title} = req.body;
-  Restaurant.update({yelpRating: yelpRating}, {
+  const {yelpRating, title, imageUrl} = req.body;
+  Restaurant.update({yelpRating: yelpRating, imageUrl: imageUrl}, {
     where: {
       title: title
     }
@@ -184,7 +184,7 @@ app.delete('/api/favorites/:id', (req, res) => {
       title: title
     }
   });
-  
+
   Users_restaurants.destroy({
     where: {
       UserId: req.params.id,

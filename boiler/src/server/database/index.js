@@ -58,6 +58,7 @@ const Restaurant = db.define('Restaurant', {
   reviewCount: {
     type: DataTypes.INTEGER,
   },
+  imageUrl: DataTypes.STRING(255),
 });
 
 /**
