@@ -1,4 +1,4 @@
-import React, { useState, UseEffect } from "react";
+import React, { useState, UseEffect } from 'react';
 import axios from 'axios';
 
 const Search = ({ store }) => {
