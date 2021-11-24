@@ -15,7 +15,7 @@ const App = () => {
 
 
   return (
-    <>
+    <div>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
@@ -48,8 +48,11 @@ const App = () => {
             </Typography>
           </Container>
         </div>
+        <div>
+          <RestaurantList />
+        </div>
       </main>
-    </>
+    </div>
   );
 
 };

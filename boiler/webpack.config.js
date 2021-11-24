@@ -5,7 +5,7 @@ const DIST_DIR = path.resolve(__dirname, 'dist');
 module.exports = {
   mode: 'development',
   watch: true,
-  devtool: 'eval-source-map',
+  devtool: 'cheap-module-eval-source-map',
   stats: {
     excludeModules: /node_modules/,
   },

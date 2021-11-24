@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(distPath));
+app.use(express.static('./dist'));
 
 ////Server Routing////
 
