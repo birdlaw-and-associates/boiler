@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
-
+package-lock.json
 
 # testing
 
@@ -13,8 +13,5 @@
 # misc
 config/keys.js
 .env
-<<<<<<< HEAD
-./public/dist/app.bundle.js
-=======
-./dist/app.bundle.js
->>>>>>> 5015b98b94f93ece6bc7cbf7ded94242248a8d8e
+dist/app.bundle.js
+
