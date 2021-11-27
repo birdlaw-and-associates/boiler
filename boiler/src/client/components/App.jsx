@@ -27,7 +27,7 @@ const App = () => {
   console.log('currentUser from app', currentUser);
 
   //Check if user exists in DB
-    //If yes, get their restaurants
+  //If yes, get their restaurants
   //If not, create db entry for them
 
 
