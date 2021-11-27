@@ -2,14 +2,12 @@
 const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
-const passport = require('passport-google-oauth2');
 // const PORT = 8080;
 dotenv.config({ path: '../.env' });
 const PORT = 3000;
 // const { DBName } = require('./db');
 const distPath = path.resolve(__dirname, 'dist');
 const { db, User, Restaurant, Users_restaurants } = require('./database/index.js');
-const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
 const app = express();
 
@@ -30,11 +28,6 @@ app.get('/api/restaurants', (req, res) => {
       console.error(err);
       res.sendStatus(500);
     });
-});
-
-// google oauth request
-app.get('/login', (req, res) => {
-  res.status(200).send('login success');
 });
 
 // gets a user's favorite restaurants

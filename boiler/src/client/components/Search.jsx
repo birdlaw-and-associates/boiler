@@ -1,34 +1,44 @@
-import React, { useState, UseEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Store from './Store.jsx';
+const key = require('../../../config/keys').yelp.APIkey;
 
-const Search = ({ store }) => {
+//search restaurants
 
-  const showInMapClicked = () => {
-    window.open(`https://maps.google.com?q=${store.coordinates.latitude},${store.coordinates.longitude}` );
+const Search = () => {
+
+  const [ store, useStore ] = useState([]);
+  
+  const getCrawfish = () => {
+    return axios.get(`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location=neworleans&categories=crawfish`, {
+      headers: {
+        Authorization: `Bearer ${key}`
+      }
+    })
+    .then((response) => response.data.businesses)
+    .then((businesses) => useStore(businesses))
+    .catch(err => console.error('error in yelp api call: ', err));
   };
+  
 
+// useEffect(() => {
+//   useStore
+// })
+  
+  
   return (
-    <div className="card mb-3">
-      <div className="row no-gutters">
-        <div className="col-md-4">
-          <img className="card-img-top store-image" src={store.image_url}></img>
-        </div>
-        <div className="col-md-8">
-          <div className="card-body">
-            <h2 className="card-title">{store.name}</h2>
-            <div className="card-text" style={{marginBottom: '10px'}}>
-              <h5 className="store-address" onClick={showInMapClicked}>
-                {store.location.display_address[0]}<br />{store.location.display_address[1]}
-              </h5>
-            </div>
-            <div className="card-text">
-              <p className="phone-number">{store.display_phone}</p>
-            </div>
-          </div>
-        </div>
+    <div>
+      <button onClick={getCrawfish}>where da crawfish</button>
+      <p>{`Your Stores:`}</p>
+      <div>
+        {
+          store.map((x) => (
+            <Store store={x} />
+          ))
+        }
       </div>
     </div>
   )
-}
+};
 
 export default Search;

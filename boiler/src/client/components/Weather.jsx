@@ -7,6 +7,9 @@ const apiKey = require('../../../config/keys').api.accuweather;
 
 
 const Weather = () => {
+  const [item] = useState(null);
+//API for
+//https://openweathermap.org/forecast5
 
   const locationKey = `30307_PC`;
   const [weatherInfo, setWeatherInfo] = useState();
