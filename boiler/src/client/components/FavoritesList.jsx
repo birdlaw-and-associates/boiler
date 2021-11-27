@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import { Tooltip } from '@material-ui/core';
 import { CardActions, IconButton } from '@mui/material';
 
-export const FavoriteContext = createContext(); //Will likely need an import context from the RestaurantsList too
+// export const FavoriteContext = createContext(); //Will likely need an import context from the RestaurantsList too
 
 const FavoritesList = () => {
   const [favorites, setFavorites] = useState([]); //this can get used from RestaurantsList with 'use-between'

@@ -3,10 +3,6 @@ import WeatherDay from './WeatherDay.jsx';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
-// import { accuweather } from '../../../config/keys.js';
 const apiKey = require('../../../config/keys').api.accuweather;
 
 
@@ -27,7 +23,7 @@ const Weather = () => {
       return stringNum; // 12 --> 12
     }
   };
-
+  //Weather dates, today, tomorrow, 11/27, 11/28, etc
 
   //only gets called when component mounts
   useEffect(() => {
