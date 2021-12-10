@@ -31,7 +31,7 @@ function GoogleSignIn() {
         changeCurrentUser(res.profileObj);
         console.log('User successfully saved'); })
       .catch((err) => { console.log('Unable to save user', err); });
-    alert(
+    console.log(
       `Logged in successfully to ${res.profileObj.name}. \n See console for full profile object.`
     );
     refreshTokenSetup(res);
