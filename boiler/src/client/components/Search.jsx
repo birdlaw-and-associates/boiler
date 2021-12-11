@@ -16,35 +16,33 @@ const Search = () => {
   
   const getRestaurants = () => {
     axios.get('/api/restaurants')
-    .then((results) => {
-      console.log('results', results.data);
-      setRestaurants(results.data);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+      .then(({ data }) => {
+        setRestaurants(data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
   
   const getCrawfish = (location) => {
-    console.log('this is the location', location);
-    return axios.get(`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location=${location}&categories=crawfish`, {
+    return axios.get(`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location=${location}&categories=seafood`, {
       headers: {
         Authorization: `Bearer ${key}`,
         Origin: '',
         'X-Requested-With': ''
       }
     })
-    .then((response) => response.data.businesses)
-    .then((businesses) => {
-      setRestaurants(businesses);
-      businesses.forEach((store) => {
-        axios.post('/api/restaurants', {title: store.name, price: store.price, address: store.location.address1, lat: store.coordinates.latitude, long: store.coordinates.longitude, imageUrl: store.image_url})
-        // .then((res) => { console.log('Saved Restaurant' ) })
-        // .catch((err) => { console.log('Unable to save restaurant'); });
-      });
-    })
-    .then(getRestaurants())
-    .catch(err => console.error('error in yelp api call: ', err));
+      .then((response) => response.data.businesses)
+      .then((businesses) => {
+        setRestaurants(businesses);
+        businesses.forEach((store) => {
+          axios.post('/api/restaurants', {title: store.name, price: store.price, address: store.location.address1, lat: store.coordinates.latitude, long: store.coordinates.longitude, imageUrl: store.image_url})
+            .then((res) => { console.log('Saved Restaurant' ) })
+            .catch((err) => { console.log('Unable to save restaurant'); });
+        });
+      })
+      // .then(getRestaurants())
+      .catch(err => console.error('error in yelp api call: ', err));
   };
   
   const useInput = (initialValue) => {
@@ -52,13 +50,13 @@ const Search = () => {
     
     const handleChange = (event) => {
       setValue(event.target.value);
-    }
+    };
     
     return {
       value,
       onChange: handleChange
-    }
-  }
+    };
+  };
   const search = useInput('');
 
 
@@ -70,7 +68,7 @@ const Search = () => {
   return (
     <div>
       <form action="">
-      <input type="text" placeholder='enter city' onChange={search.onChange} value={search.value}></input>
+        <input type="text" placeholder='enter city' onChange={search.onChange} value={search.value}></input>
       </form>
       <button onClick={() => getCrawfish(search.value)}>where yat?</button>
       <p>{'Restaurants Near You: '}</p>

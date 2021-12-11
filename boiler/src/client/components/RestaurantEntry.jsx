@@ -75,7 +75,6 @@ const RestaurantEntry = (props) => {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This is just some text in the typography field to fill in the space while we figure out whats next.
         </Typography>
         <Typography>Address: {address}</Typography>
         <Typography>Price: ${price}</Typography>
