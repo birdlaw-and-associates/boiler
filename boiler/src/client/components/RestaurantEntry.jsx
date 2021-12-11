@@ -19,7 +19,9 @@ const RestaurantEntry = (props) => {
   // }
   // const [bookmarkIcon, setBookmarkIcon] = useState(initialIcon);
   const { currentUser } = useSharedUser();
-  const {yelpRating, title, address, price, imageUrl, id} = props.restaurant;
+  const {rating, name, title, price, image_url, id} = props.restaurant;
+  const address = props.restaurant.location.address1;
+  // console.log('888888888888888888888888888888888888 should be props.restaurant: ', props.restaurant);
 
   // const updateRating = (e) => {
   //   e.preventDefault();
@@ -33,7 +35,7 @@ const RestaurantEntry = (props) => {
 
   const toggleFavorites = () => {
     if (props.favorite) {
-      axios.delete('/api/favorites/', {title: title, userEmail: currentUser.email})
+      axios.delete('/api/favorites/', {title: name, userEmail: currentUser.email})
         .then(() => {
           console.log('successfully removed from favorites');
           setBookmarkIcon(BookmarkAddOutlinedIcon);
@@ -65,12 +67,12 @@ const RestaurantEntry = (props) => {
 
     <Card sx={{ maxWidth: 600 }}>
       <CardHeader
-        title={title}
+        title={name}
         subheader="November 24th, 2021" />
       <CardMedia
         component="img"
         height="194"
-        image={imageUrl}
+        image={image_url}
         alt=""
       />
       <CardContent>
@@ -78,7 +80,7 @@ const RestaurantEntry = (props) => {
         </Typography>
         <Typography>Address: {address}</Typography>
         <Typography>Price: ${price}</Typography>
-        <Typography>Yelp Rating:{yelpRating}</Typography>
+        <Typography>Yelp Rating:{rating}</Typography>
       </CardContent>
       <CardActions disableSpacing>
         <Tooltip title="Remove from Favorites" placement ="right-start" arrow onClick={handleClick}>
