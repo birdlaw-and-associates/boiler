@@ -15,6 +15,7 @@ const RestaurantList = (props) => {
   const [restaurants, setRestaurants] = useState([]);
 
   const getRestaurants = () => {
+    console.log('should be the city or undefined', props.location);
     const url = !props.location
       ? '/api/restaurants'
       : `/api/restaurants/${props.location}`;
@@ -37,6 +38,10 @@ const RestaurantList = (props) => {
     getRestaurants();
     getFavorites();
   }, []);
+
+  useEffect(() => {
+    getRestaurants();
+  }, [props.location]);
 
   let array = [];
 

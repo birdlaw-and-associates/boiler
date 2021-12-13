@@ -10,7 +10,7 @@ import RestaurantList from './RestaurantList.jsx';
 
 const Search = () => {
   const [ beenSearched, changeSearched] = useState(false);
-  const [ citySearched, changeCity ] = useState('');
+  const [ citySearched, changeCity ] = useState(undefined);
   // const [ store, useStore ] = useState([]);
   
   
