@@ -44,15 +44,6 @@ const Profile = (props) => {
         <h2>{name}</h2>
         <h4>{email}</h4>
       </div>
-      <form onSubmit={handleSubmit}>
-        <label>Latitude
-          <input type='text' value={latitude} name='lat' onChange={handleInputChange} required></input>
-        </label>
-        <label>Longitude
-          <input type='text' value={longitude} name='long' onChange={handleInputChange} required></input>
-        </label>
-        <button type='submit'>SUBMIT</button>
-      </form>
       <RestaurantList favorites={true} />
     </div>
   );
