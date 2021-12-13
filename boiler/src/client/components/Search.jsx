@@ -4,25 +4,26 @@ import Store from './Store.jsx';
 import Grid from '@mui/material/Grid';
 import RestaurantEntry from './RestaurantEntry.jsx';
 const key = require('../../../config/keys').yelp.APIkey;
+import RestaurantList from './RestaurantList.jsx';
 
 //search restaurants
 
 const Search = () => {
-
+  const [ beenSearched, changeSearched] = useState(false);
   // const [ store, useStore ] = useState([]);
   
-  const [restaurants, setRestaurants] = useState([]);
+  // const [restaurants, setRestaurants] = useState([]);
   
   
-  const getRestaurants = () => {
-    axios.get('/api/restaurants')
-      .then(({ data }) => {
-        setRestaurants(data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  };
+  // const getRestaurants = () => {
+  //   axios.get('/api/restaurants')
+  //     .then(({ data }) => {
+  //       setRestaurants(data);
+  //     })
+  //     .catch(err => {
+  //       console.error(err);
+  //     });
+  // };
   
   const getCrawfish = (location) => {
     return axios.get(`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location=${location}&categories=seafood`, {
@@ -34,15 +35,15 @@ const Search = () => {
     })
       .then((response) => response.data.businesses)
       .then((businesses) => {
-        setRestaurants(businesses);
+        // setRestaurants(businesses);
         businesses.forEach((store) => {
           axios.post('/api/restaurants', {title: store.name, price: store.price, address: store.location.address1, lat: store.coordinates.latitude, long: store.coordinates.longitude, imageUrl: store.image_url})
-            .then((res) => { console.log('Saved Restaurant' ) })
+            .then((res) => { console.log('Saved Restaurant' ); })
             .catch((err) => { console.log('Unable to save restaurant'); });
         });
       })
-      // .then(getRestaurants())
-      .catch(err => console.error('error in yelp api call: ', err));
+      .catch(err => console.error('error in yelp api call: ', err))
+      .finally(changeSearched(true));
   };
   
   const useInput = (initialValue) => {
@@ -71,7 +72,8 @@ const Search = () => {
         <input type="text" placeholder='enter city' onChange={search.onChange} value={search.value}></input>
       </form>
       <button onClick={() => getCrawfish(search.value)}>where yat?</button>
-      <p>{'Restaurants Near You: '}</p>
+      {beenSearched && <RestaurantList favorites={false} />}
+      {/* <p>{'Restaurants Near You: '}</p>
       <div className="restaurant-list">
         <Grid
           container
@@ -88,7 +90,7 @@ const Search = () => {
             })
           }
         </Grid>
-      </div>
+      </div> */}
     </div>
   );
 };
