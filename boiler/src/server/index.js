@@ -40,6 +40,17 @@ app.get('/api/restaurants', (req, res) => {
     });
 });
 
+app.get('/api/restaurants/:city', (req, res) => {
+  Restaurant.findAll({where: {city: req.params.city}})
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
 // gets a user's favorite restaurants
 app.get('/api/favorites/:email', async (req, res) => {
   const {dataValues} = await User.findOne({where: {email: req.params.email}});
@@ -93,7 +104,7 @@ app.post('/api/users', (req, res) => {
 });
 
 app.post('/api/restaurants', (req, res) => {
-  const { title, price, address, lat, long, imageUrl, yelpRating } = req.body;
+  const { title, price, address, lat, long, imageUrl, yelpRating, city } = req.body;
   Restaurant.create({
     title: title,
     price: price,
@@ -101,7 +112,8 @@ app.post('/api/restaurants', (req, res) => {
     lat: lat,
     long: long,
     imageUrl: imageUrl,
-    yelpRating: yelpRating
+    yelpRating: yelpRating,
+    city: city
   })
     .then(restaurant => {
       res.status(201).json(restaurant);

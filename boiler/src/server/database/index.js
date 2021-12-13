@@ -65,6 +65,7 @@ const Restaurant = db.define('Restaurant', {
   reviewCount: {
     type: DataTypes.INTEGER,
   },
+  city: DataTypes.STRING(255),
 });
 
 /**

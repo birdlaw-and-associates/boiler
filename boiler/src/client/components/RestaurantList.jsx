@@ -15,7 +15,10 @@ const RestaurantList = (props) => {
   const [restaurants, setRestaurants] = useState([]);
 
   const getRestaurants = () => {
-    return axios.get('/api/restaurants')
+    const url = !props.location
+      ? '/api/restaurants'
+      : `/api/restaurants/${props.location}`;
+    return axios.get(url)
       .then(({data}) => {
         setRestaurants(data);
       })
@@ -35,7 +38,17 @@ const RestaurantList = (props) => {
     getFavorites();
   }, []);
 
-  const array = props.favorites ? favorites : restaurants;
+  let array = [];
+
+  if (props.favorites) {
+    array = favorites;
+  } else {
+    array = restaurants;
+    if (props.location !== undefined) {
+      array = restaurants.filter(elem => elem.city === props.location);
+    }
+  }
+
   return (
     <div>
       {
@@ -50,7 +63,7 @@ const RestaurantList = (props) => {
           justify="center"
         >
           {
-            !!restaurants && array.map(store => {
+            !!array && array.map(store => {
               return (
                 <Grid item xs={12} sm={6} md={4} zeroMinWidth={0}>
                   <RestaurantEntry restaurant={store} key={store.id} isFavorite={favorites.includes(store)} updateFavs={getFavorites}/>

@@ -19,7 +19,7 @@ const RestaurantEntry = (props) => {
   }
   const [bookmarkIcon, setBookmarkIcon] = useState(initialIcon);
   const { currentUser } = useSharedUser();
-  const {yelpRating, title, address, price, imageUrl, id} = props.restaurant;
+  const {yelpRating, title, address, price, imageUrl, id, city} = props.restaurant;
 
   const toggleFavorites = () => {
     if (props.isFavorite) {
@@ -77,7 +77,7 @@ const RestaurantEntry = (props) => {
         alt=""
       />
       <CardContent>
-        <Typography>Address: {address}</Typography>
+        <Typography>Address: {address}, {city}</Typography>
         <Typography>Price: {price}</Typography>
         <Typography>Yelp Rating: {yelpRating}</Typography>
       </CardContent>
