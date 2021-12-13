@@ -134,16 +134,6 @@ export default function PersistentDrawerLeft() {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          {/* <List>
-            {['Search', 'Weather', 'Login'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List> */}
           <List>
             <ListItem button key={'Search'}>
               <ListItemIcon>
@@ -179,10 +169,6 @@ export default function PersistentDrawerLeft() {
             serves this tasty southern treat and gather some friends and family to go and enjoy a nice time outside, weather
             permitting (use our handy weather feature to see how the next week will be in your area).
           </Typography>
-          {/* <Routes>
-            <Route path={'/weather'} element={<Weather />}/>
-            <Route path={'/search'} element={<Search />}/>
-          </Routes> */}
         </Main>
       </Box>
       <Routes>
