@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button, Box, TextField } from '@mui/material';
 import axios from 'axios';
 import Store from './Store.jsx';
 import Grid from '@mui/material/Grid';
@@ -68,10 +69,12 @@ const Search = () => {
 
   return (
     <div>
+      <Box>
       <form action="">
-        <input type="text" placeholder='enter city' onChange={search.onChange} value={search.value}></input>
+      <TextField id="outlined-basic" label="enter city" variant="outlined"onChange={search.onChange} value={search.value} > </TextField>
       </form>
-      <button onClick={() => getCrawfish(search.value)}>where yat?</button>
+      </Box>
+      <Button onClick={() => getCrawfish(search.value)}>where yat?</Button>
       {beenSearched && <RestaurantList favorites={false} />}
       {/* <p>{'Restaurants Near You: '}</p>
       <div className="restaurant-list">
