@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button, Box, TextField } from '@mui/material';
 import axios from 'axios';
 import Store from './Store.jsx';
 import Grid from '@mui/material/Grid';
@@ -68,29 +69,23 @@ const Search = () => {
 
   return (
     <div>
+      <Box
+      display="flex" 
+      alignItems="center"
+      justifyContent="center"
+    >
       <form action="">
-        <input type="text" placeholder='enter city' onChange={search.onChange} value={search.value}></input>
+      <TextField id="outlined-basic" label="enter city" variant="outlined"onChange={search.onChange} value={search.value} > </TextField>
       </form>
-      <button onClick={() => getCrawfish(search.value)}>where yat?</button>
+      </Box>
+      <Box
+        display="flex" 
+        alignItems="center"
+        justifyContent="center"
+      >
+      <Button onClick={() => getCrawfish(search.value)}>where yat?</Button>
+      </Box>
       {beenSearched && <RestaurantList favorites={false} />}
-      {/* <p>{'Restaurants Near You: '}</p>
-      <div className="restaurant-list">
-        <Grid
-          container
-          spacing={4}
-          justify="center"
-        >
-          {
-            !!restaurants && restaurants.map(store => {
-              return (
-                <Grid item xs={12} sm={6} md={4} zeroMinWidth={0}>
-                  <RestaurantEntry restaurant={store} key={store.id}/>
-                </Grid>
-              );
-            })
-          }
-        </Grid>
-      </div> */}
     </div>
   );
 };
