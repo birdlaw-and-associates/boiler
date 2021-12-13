@@ -69,31 +69,23 @@ const Search = () => {
 
   return (
     <div>
-      <Box>
+      <Box
+      display="flex" 
+      alignItems="center"
+      justifyContent="center"
+    >
       <form action="">
       <TextField id="outlined-basic" label="enter city" variant="outlined"onChange={search.onChange} value={search.value} > </TextField>
       </form>
       </Box>
+      <Box
+        display="flex" 
+        alignItems="center"
+        justifyContent="center"
+      >
       <Button onClick={() => getCrawfish(search.value)}>where yat?</Button>
+      </Box>
       {beenSearched && <RestaurantList favorites={false} />}
-      {/* <p>{'Restaurants Near You: '}</p>
-      <div className="restaurant-list">
-        <Grid
-          container
-          spacing={4}
-          justify="center"
-        >
-          {
-            !!restaurants && restaurants.map(store => {
-              return (
-                <Grid item xs={12} sm={6} md={4} zeroMinWidth={0}>
-                  <RestaurantEntry restaurant={store} key={store.id}/>
-                </Grid>
-              );
-            })
-          }
-        </Grid>
-      </div> */}
     </div>
   );
 };
