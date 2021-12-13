@@ -14,7 +14,7 @@ import { useSharedUser } from './User.jsx';
 
 const RestaurantEntry = (props) => {
   let initialIcon = BookmarkAddOutlinedIcon;
-  if (props.favorite) {
+  if (props.isFavorite) {
     initialIcon = BookmarkAddedOutlinedIcon;
   }
   const [bookmarkIcon, setBookmarkIcon] = useState(initialIcon);
@@ -22,15 +22,15 @@ const RestaurantEntry = (props) => {
   const {yelpRating, title, address, price, imageUrl, id} = props.restaurant;
 
   const toggleFavorites = () => {
-    if (props.favorite) {
-      axios.delete('/api/favorites/', {title: title, userEmail: currentUser.email})
+    if (props.isFavorite) {
+      axios.delete(`/api/favorites/${id}/${currentUser.email}`)
         .then(() => {
           console.log('successfully removed from favorites');
           setBookmarkIcon(BookmarkAddOutlinedIcon);
         })
         .catch(err => {
           console.error(err);
-          console.log('failed to add favorite');
+          console.log('failed to remove from favorites');
         });
     } else {
       axios.post('/api/favorites/', {restaurantId: id, email: currentUser.email })
@@ -51,17 +51,17 @@ const RestaurantEntry = (props) => {
     props.updateFavs();
   };
 
-  const updateBookmarkIcon = () => {
-    if (props.favorite) {
-      initialIcon = BookmarkAddedOutlinedIcon;
-    } else {
-      initialIcon = BookmarkAddOutlinedIcon;
-    }
-  };
+  // const updateBookmarkIcon = () => {
+  //   if (props.isFavorite) {
+  //     initialIcon = BookmarkAddedOutlinedIcon;
+  //   } else {
+  //     initialIcon = BookmarkAddOutlinedIcon;
+  //   }
+  // };
 
-  useEffect(() => {
-    updateBookmarkIcon();
-  });
+  // useEffect(() => {
+  //   updateBookmarkIcon();
+  // });
 
 
   return (
@@ -77,29 +77,28 @@ const RestaurantEntry = (props) => {
         alt=""
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          This is just some text in the typography field to fill in the space while we figure out whats next.
-        </Typography>
         <Typography>Address: {address}</Typography>
         <Typography>Price: {price}</Typography>
         <Typography>Yelp Rating: {yelpRating}</Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Tooltip title="Toggle Favorites" placement ="right-start" arrow onClick={handleClick}>
-          {
-            props.isFavorite
-              ? (
-                <IconButton label='Toggle Favorites'>
+        {
+          props.isFavorite
+            ? (
+              <Tooltip title="Remove Favorites" placement ="right-start" arrow onClick={handleClick}>
+                <IconButton label='Remove Favorites'>
                   <BookmarkAddedOutlinedIcon />
                 </IconButton>
-              )
-              :
-              (<IconButton label='Toggle Favorites'>
-                <BookmarkAddOutlinedIcon />
-              </IconButton>
-              )
-          }
-        </Tooltip>
+              </Tooltip>
+            )
+            : (
+              <Tooltip title="Add to Favorites" placement ="right-start" arrow onClick={handleClick}>
+                <IconButton label='Add to Favorites'>
+                  <BookmarkAddOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )
+        }
       </CardActions>
     </Card>
   );
