@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Button, Box, CardHeader, CardMedia, CardContent, Typography, IconButton} from '@mui/material';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
@@ -13,39 +13,27 @@ import { useSharedUser } from './User.jsx';
 
 
 const RestaurantEntry = (props) => {
-  // let initialIcon = BookmarkAddOutlinedIcon;
-  // if (props.favorite) {
-  //   initialIcon = BookmarkAddedOutlinedIcon;
-  // }
-  // const [bookmarkIcon, setBookmarkIcon] = useState(initialIcon);
+  let initialIcon = BookmarkAddOutlinedIcon;
+  if (props.isFavorite) {
+    initialIcon = BookmarkAddedOutlinedIcon;
+  }
+  const [bookmarkIcon, setBookmarkIcon] = useState(initialIcon);
   const { currentUser } = useSharedUser();
-  const {rating, name, title, price, image_url, id} = props.restaurant;
-  const address = props.restaurant.location.address1;
-  // console.log('888888888888888888888888888888888888 should be props.restaurant: ', props.restaurant);
-
-  // const updateRating = (e) => {
-  //   e.preventDefault();
-  //   axios.put(`/api/restaurants/${id}`, {userRating: e.currentTarget.value})
-  //     .then(console.log('voted!'))
-  //     .catch(err => {
-  //       console.error(err);
-  //       console.log('vote didn\'t count');
-  //     });
-  // };
+  const {yelpRating, title, address, price, imageUrl, id} = props.restaurant;
 
   const toggleFavorites = () => {
-    if (props.favorite) {
-      axios.delete('/api/favorites/', {title: name, userEmail: currentUser.email})
+    if (props.isFavorite) {
+      axios.delete(`/api/favorites/${id}/${currentUser.email}`)
         .then(() => {
           console.log('successfully removed from favorites');
           setBookmarkIcon(BookmarkAddOutlinedIcon);
         })
         .catch(err => {
           console.error(err);
-          console.log('failed to add favorite');
+          console.log('failed to remove from favorites');
         });
     } else {
-      axios.post('/api/favorites/', {restaurantId: id, userEmail: currentUser.email })
+      axios.post('/api/favorites/', {restaurantId: id, email: currentUser.email })
         .then(() => {
           console.log('successfully added to favorites');
           setBookmarkIcon(BookmarkAddedOutlinedIcon);
@@ -60,44 +48,57 @@ const RestaurantEntry = (props) => {
   const handleClick = (e) => {
     e.preventDefault();
     toggleFavorites();
+    props.updateFavs();
   };
+
+  // const updateBookmarkIcon = () => {
+  //   if (props.isFavorite) {
+  //     initialIcon = BookmarkAddedOutlinedIcon;
+  //   } else {
+  //     initialIcon = BookmarkAddOutlinedIcon;
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   updateBookmarkIcon();
+  // });
 
 
   return (
 
     <Card sx={{ maxWidth: 600 }}>
       <CardHeader
-        title={name}
-        subheader="November 24th, 2021" />
+        title={title}
+      />
       <CardMedia
         component="img"
         height="194"
-        image={image_url}
+        image={imageUrl}
         alt=""
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-        </Typography>
         <Typography>Address: {address}</Typography>
-        <Typography>Price: ${price}</Typography>
-        <Typography>Yelp Rating:{rating}</Typography>
+        <Typography>Price: {price}</Typography>
+        <Typography>Yelp Rating: {yelpRating}</Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Tooltip title="Remove from Favorites" placement ="right-start" arrow onClick={handleClick}>
-          {
-            props.isFavorite
-              ? (
-                <IconButton label='Toggle Favorites'>
+        {
+          props.isFavorite
+            ? (
+              <Tooltip title="Remove Favorites" placement ="right-start" arrow onClick={handleClick}>
+                <IconButton label='Remove Favorites'>
                   <BookmarkAddedOutlinedIcon />
                 </IconButton>
-              )
-              :
-              (<IconButton label='Toggle Favorites'>
-                <BookmarkAddOutlinedIcon />
-              </IconButton>
-              )
-          }
-        </Tooltip>
+              </Tooltip>
+            )
+            : (
+              <Tooltip title="Add to Favorites" placement ="right-start" arrow onClick={handleClick}>
+                <IconButton label='Add to Favorites'>
+                  <BookmarkAddOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )
+        }
       </CardActions>
     </Card>
   );

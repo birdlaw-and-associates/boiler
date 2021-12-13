@@ -28,9 +28,11 @@ function GoogleSignIn() {
 
     axios.post('/api/users', res.profileObj)
       .then((user) => {
-        changeCurrentUser(res.profileObj);
-        console.log('User successfully saved'); })
-      .catch((err) => { console.log('Unable to save user', err); });
+        // changeCurrentUser(res.profileObj);
+        console.log('User successfully saved');
+      })
+      .catch((err) => { console.log('Unable to save user', err); })
+      .finally(changeCurrentUser(res.profileObj));
     console.log(
       `Logged in successfully to ${res.profileObj.name}. \n See console for full profile object.`
     );

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 //Server definition
 const path = require('path');
 const express = require('express');
@@ -22,8 +23,8 @@ app.use(express.static('./dist'));
 
 //cors
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
@@ -40,17 +41,21 @@ app.get('/api/restaurants', (req, res) => {
 });
 
 // gets a user's favorite restaurants
-app.get('/api/favorites/', (req, res) => {
-  User.findOne({where: {email: req.body.email}}, {
+app.get('/api/favorites/:email', async (req, res) => {
+  const {dataValues} = await User.findOne({where: {email: req.params.email}});
+  // Users_restaurants.findAll({where: {UserId: dataValues.id}},)
+  User.findAll({
     include: [
       {
         model: Restaurant,
-        as: favoriteRestaurants
+        through: {where: {userId: dataValues.id}}
       }
     ]
   })
-    .then(data => {
-      res.status(200).send(data.favoriteRestaurants);
+    .then((data) => {
+      // you try destructuring that
+      const restaurants = data[0].dataValues.Restaurants.map(elem => elem.dataValues);
+      res.status(200).send(restaurants);
     })
     .catch(err => {
       console.error(err);
@@ -64,8 +69,9 @@ app.get('/api/users/', (req, res) => {
   User.findOne({where: {email: email}})
     .then((data) => {
       console.log(data);
-      res.status(200).json(data) })
-    .catch((err) => {console.log('Could not find user.')});
+      res.status(200).json(data); 
+    })
+    .catch((err) => { console.log('Could not find user.'); });
 });
 
 
@@ -107,12 +113,12 @@ app.post('/api/restaurants', (req, res) => {
 });
 
 // adds a restaurant to favorites
-app.post('/api/favorites/', (req, res) => {
+app.post('/api/favorites/', async (req, res) => {
   const { email, restaurantId } = req.body;
-  const targetUser = User.findOne({where: {email: email}});
+  const targetUser = await User.findOne({where: {email: email}});
 
   Users_restaurants.create({
-    UserId: targetUser.id,
+    UserId: targetUser.dataValues.id,
     RestaurantId: restaurantId
   })
     .then(() => {
@@ -193,24 +199,22 @@ app.delete('/api/restaurants/:id', (req, res) => {
     });
 });
 
-// ID in params is UserID, restaurant name in body
-app.delete('/api/favorites/', (req, res) => {
-  const {title, userEmail} = req.body;
-  const targetRestaurant = Restaurant.findOne({
+// ID in params is RestaurantID, user email in body
+app.delete('/api/favorites/:id/:email', async (req, res) => {
+  // const targetRestaurant = await Restaurant.findOne({
+  //   where: {
+  //     title: title
+  //   }
+  // });
+  const currentUser = await User.findOne({
     where: {
-      title: title
+      email: req.params.email
     }
   });
-  const currentUser = User.findOne({
-    where: {
-      email: userEmail
-    }
-  });
-
   Users_restaurants.destroy({
     where: {
-      UserId: currentUser.id,
-      RestaurantId: targetRestaurant.id
+      UserId: currentUser.dataValues.id,
+      RestaurantId: req.params.id
     }
   })
     .then(() => {
@@ -219,7 +223,8 @@ app.delete('/api/favorites/', (req, res) => {
     .catch(err => {
       console.error(err);
       res.sendStatus(500);
-    });
+    })
+    .finally(console.log('current user should be popping up here help please show up !!!!!!!!!!!!!****************&&&&&&&&&&&&&&&&&&&&&&################', currentUser));
 });
 
 app.delete('/api/users/:id', (req, res) => {

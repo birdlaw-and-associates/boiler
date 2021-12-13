@@ -51,11 +51,11 @@ const Restaurant = db.define('Restaurant', {
   price: DataTypes.STRING(255),
   address: {
     type: DataTypes.STRING(255),
-    unique: true
+    unique: true,
+    allowNull: false
   },
   lat: {
-    type: DataTypes.DECIMAL(9, 6),
-    allowNull: false
+    type: DataTypes.DECIMAL(9, 6)
   },
   long: {
     type: DataTypes.DECIMAL(9, 6)
