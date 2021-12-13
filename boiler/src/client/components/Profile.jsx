@@ -53,7 +53,7 @@ const Profile = (props) => {
         </label>
         <button type='submit'>SUBMIT</button>
       </form>
-      <RestaurantList favorites={false} />
+      <RestaurantList favorites={true} />
     </div>
   );
 

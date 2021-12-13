@@ -40,17 +40,21 @@ app.get('/api/restaurants', (req, res) => {
 });
 
 // gets a user's favorite restaurants
-app.get('/api/favorites/', (req, res) => {
-  User.findOne({where: {email: req.body.email}}, {
+app.get('/api/favorites/:email', async (req, res) => {
+  const {dataValues} = await User.findOne({where: {email: req.params.email}});
+  // Users_restaurants.findAll({where: {UserId: dataValues.id}},)
+  User.findAll({
     include: [
       {
         model: Restaurant,
-        as: favoriteRestaurants
+        through: {where: {userId: dataValues.id}}
       }
     ]
   })
-    .then(data => {
-      res.status(200).send(data.favoriteRestaurants);
+    .then((data) => {
+      // you try destructuring that
+      const restaurants = data[0].dataValues.Restaurants.map(elem => elem.dataValues);
+      res.status(200).send(restaurants);
     })
     .catch(err => {
       console.error(err);
@@ -107,12 +111,13 @@ app.post('/api/restaurants', (req, res) => {
 });
 
 // adds a restaurant to favorites
-app.post('/api/favorites/', (req, res) => {
+app.post('/api/favorites/', async (req, res) => {
   const { email, restaurantId } = req.body;
-  const targetUser = User.findOne({where: {email: email}});
+  const targetUser = await User.findOne({where: {email: email}});
+  console.log('this should be the target user', targetUser.dataValues);
 
   Users_restaurants.create({
-    UserId: targetUser.id,
+    UserId: targetUser.dataValues.id,
     RestaurantId: restaurantId
   })
     .then(() => {

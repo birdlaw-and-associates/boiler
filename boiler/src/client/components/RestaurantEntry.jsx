@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Button, Box, CardHeader, CardMedia, CardContent, Typography, IconButton} from '@mui/material';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
@@ -13,23 +13,13 @@ import { useSharedUser } from './User.jsx';
 
 
 const RestaurantEntry = (props) => {
-  // let initialIcon = BookmarkAddOutlinedIcon;
-  // if (props.favorite) {
-  //   initialIcon = BookmarkAddedOutlinedIcon;
-  // }
-  // const [bookmarkIcon, setBookmarkIcon] = useState(initialIcon);
+  let initialIcon = BookmarkAddOutlinedIcon;
+  if (props.favorite) {
+    initialIcon = BookmarkAddedOutlinedIcon;
+  }
+  const [bookmarkIcon, setBookmarkIcon] = useState(initialIcon);
   const { currentUser } = useSharedUser();
   const {yelpRating, title, address, price, imageUrl, id} = props.restaurant;
-
-  // const updateRating = (e) => {
-  //   e.preventDefault();
-  //   axios.put(`/api/restaurants/${id}`, {userRating: e.currentTarget.value})
-  //     .then(console.log('voted!'))
-  //     .catch(err => {
-  //       console.error(err);
-  //       console.log('vote didn\'t count');
-  //     });
-  // };
 
   const toggleFavorites = () => {
     if (props.favorite) {
@@ -43,7 +33,7 @@ const RestaurantEntry = (props) => {
           console.log('failed to add favorite');
         });
     } else {
-      axios.post('/api/favorites/', {restaurantId: id, userEmail: currentUser.email })
+      axios.post('/api/favorites/', {restaurantId: id, email: currentUser.email })
         .then(() => {
           console.log('successfully added to favorites');
           setBookmarkIcon(BookmarkAddedOutlinedIcon);
@@ -58,7 +48,20 @@ const RestaurantEntry = (props) => {
   const handleClick = (e) => {
     e.preventDefault();
     toggleFavorites();
+    props.updateFavs();
   };
+
+  const updateBookmarkIcon = () => {
+    if (props.favorite) {
+      initialIcon = BookmarkAddedOutlinedIcon;
+    } else {
+      initialIcon = BookmarkAddOutlinedIcon;
+    }
+  };
+
+  useEffect(() => {
+    updateBookmarkIcon();
+  });
 
 
   return (
@@ -79,7 +82,7 @@ const RestaurantEntry = (props) => {
         </Typography>
         <Typography>Address: {address}</Typography>
         <Typography>Price: {price}</Typography>
-        <Typography>Yelp Rating:{yelpRating}</Typography>
+        <Typography>Yelp Rating: {yelpRating}</Typography>
       </CardContent>
       <CardActions disableSpacing>
         <Tooltip title="Toggle Favorites" placement ="right-start" arrow onClick={handleClick}>
